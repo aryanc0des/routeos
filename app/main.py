@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 from model import ChatRequest
 from starlette import status
 from contextlib import asynccontextmanager
@@ -32,9 +32,13 @@ def get_async_client(request: Request) -> httpx.AsyncClient:
 async def send_msg(body: ChatRequest, request: Request):
     client = get_async_client(request)
 
-    response = await client.post(url="https://api.groq.com/openai/v1/chat/completions", 
-                                 headers={"Authorization": f"Bearer {groq_api_key}", "Content-Type": "application/json"}, 
-                                 json={"model": "qwen/qwen3.8-27b", "messages": [{"role": "user", "content": body.message}]}
-                                 )
+    try:
+        response = await client.post(url="https://api.groq.com/openai/v1/chat/completions", 
+                                    headers={"Authorization": f"Bearer {groq_api_key}", "Content-Type": "application/json"}, 
+                                    json={"model": "qwen/qwen3.8-27b", "messages": [{"role": "user", "content": body.message}]},
+                                    timeout=25.0
+                                    )
 
-    return response.json()
+        return response.json()
+    except httpx.TimeoutException:
+        raise HTTPException(status_code = status.HTTP_504_GATEWAY_TIMEOUT, detail="Provider Timeout")
