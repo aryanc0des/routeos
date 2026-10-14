@@ -19,5 +19,5 @@ def test_chat_mock_reply():
     with TestClient(app) as client: # test client to call endpoints, not actual server running but self contained test environment
         response = client.post("/chat", json={"message": "hello"})
 
-    assert response.status_code == 200 #anything other than this will fail the test
+    assert response.status_code == 200 # anything other than this will fail the test
     assert response.json()["reply"] == "fake reply"
