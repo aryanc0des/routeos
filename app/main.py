@@ -1,11 +1,11 @@
 from fastapi import FastAPI, Request, HTTPException
-from model import ChatRequest, ChatResponse
+from app.model import ChatRequest, ChatResponse
 from starlette import status
 from contextlib import asynccontextmanager
 import httpx
 import os
 from dotenv import load_dotenv
-from providers import *
+from app.providers import *
 import time
 
 load_dotenv()
@@ -14,7 +14,7 @@ groq_api_key = os.getenv("GROQ_API_KEY")
 groq_url = GROQ
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(app: FastAPI): 
 
     async_client = httpx.AsyncClient()
     app.state.async_client = async_client
@@ -32,8 +32,8 @@ def home():
 def get_async_client(request: Request) -> httpx.AsyncClient:
     return request.app.state.async_client
 
-@app.post("/chat")
-async def send_msg(body: ChatRequest, response_model: ChatResponse, request: Request):
+@app.post("/chat", response_model=ChatResponse)
+async def send_msg(body: ChatRequest, request: Request):
     client = get_async_client(request)
 
     try:
