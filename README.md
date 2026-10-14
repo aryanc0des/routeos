@@ -63,7 +63,7 @@ Filled in as each milestone ships, with the number, the prediction made beforeha
 
 | Milestone | Metric | Predicted | Measured | Reproduce |
 | --- | --- | --- | --- | --- |
-| Proxy (wk 1) | Overhead vs. direct call | — | — | — |
+| Proxy (wk 1) | Overhead vs. direct call | 10–25 ms | ~0.57s–1.19s (dominated by Groq’s own response time, not proxy overhead) | 3 sample `/chat` calls, Oct 14 |
 | Rate limiter v2 (wk 5) | Over-admission at 200 concurrent clients | 0 | — | — |
 | Circuit breaker (wk 6-7) | Success rate with vs. without fallback | — | — | — |
 | Cache (wk 8-9) | Semantic cache false-hit rate | — | — | — |

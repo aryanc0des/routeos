@@ -1,11 +1,11 @@
 from fastapi import FastAPI, Request, HTTPException
-from app.model import ChatRequest, ChatResponse
+from model import ChatRequest, ChatResponse
 from starlette import status
 from contextlib import asynccontextmanager
 import httpx
 import os
 from dotenv import load_dotenv
-from app.providers import *
+from providers import *
 import time
 
 load_dotenv()
