@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from model import ChatRequest, ChatResponse
 from starlette import status
-from providers import GROQ, GEMINI, call_groq
+from providers import GROQ, GEMINI, call_groq, call_gemini
 from configs import lifespan
 
 # load_dotenv()
@@ -35,6 +35,9 @@ async def send_msg(provider: str, body: ChatRequest, request: Request):
     if provider == "groq":
         result = await call_groq(body.message, request)
 
+    elif provider == "gemini":
+        result = await call_gemini(body.message, request)
+        
     return result
     # client = get_async_client(request) # start a async client instance
 
