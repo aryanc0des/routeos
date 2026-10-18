@@ -1,9 +1,9 @@
 import httpx
-from configs import get_async_client, groq_api_key, gemini_api_key
+from app.configs import get_async_client, groq_api_key, gemini_api_key
 from starlette import status
 import time
 from fastapi import Request, HTTPException
-from model import ChatRequest, ChatResponse
+from app.model import ChatRequest, ChatResponse
 
 GROQ = "https://api.groq.com/openai/v1/chat/completions"
 
@@ -48,7 +48,7 @@ async def call_gemini(message: str, request: Request):
                             headers={"x-goog-api-key": f"{gemini_api_key}", "Content-Type": "application/json"},
                             # json={"model": "gemini-2.5-flash-lite", "messages": [{"role": "user", "content": message}]},
                             json={"model": "gemini-3.5-flash-lite",
-                                    "contents": {
+                                    "content": {
                                     "parts": [{
                                         "text": message
                                         }],
@@ -61,7 +61,7 @@ async def call_gemini(message: str, request: Request):
 
         raw_response = response.json()
 
-        breakpoint()
+        #breakpoint()
 
         formatted_response = ChatResponse(
             reply = raw_response.get("candidates")[0].get("content").get("parts")[0].get("text"),

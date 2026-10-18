@@ -1,8 +1,8 @@
-from fastapi import FastAPI, Request
-from model import ChatRequest, ChatResponse
+from fastapi import FastAPI, Request, HTTPException
+from app.model import ChatRequest, ChatResponse
 from starlette import status
-from providers import GROQ, GEMINI, call_groq, call_gemini
-from configs import lifespan
+from app.providers import GROQ, GEMINI, call_groq, call_gemini
+from app.configs import lifespan
 
 # load_dotenv()
 # groq_api_key = os.getenv("GROQ_API_KEY")
@@ -37,7 +37,10 @@ async def send_msg(provider: str, body: ChatRequest, request: Request):
 
     elif provider == "gemini":
         result = await call_gemini(body.message, request)
-        
+
+    else:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"unknown provider: {provider}")
+
     return result
     # client = get_async_client(request) # start a async client instance
 
