@@ -5,8 +5,6 @@ import httpx
 from app.main import app
 from app.model import *
 from app.providers import *
-from fastapi import HTTPException
-from starlette import status
 
 from fastapi.testclient import TestClient
 
