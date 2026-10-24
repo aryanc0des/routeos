@@ -1,8 +1,8 @@
 from fastapi import FastAPI, Request, HTTPException
-from app.model import ChatRequest, ChatResponse
+from model import ChatRequest, ChatResponse
 from starlette import status
-from app.providers import GROQ, GEMINI, call_groq, call_gemini
-from app.configs import lifespan
+from providers import GROQ, GEMINI, call_groq, call_gemini
+from configs import lifespan
 
 # load_dotenv()
 # groq_api_key = os.getenv("GROQ_API_KEY")

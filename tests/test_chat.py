@@ -1,9 +1,9 @@
 import pytest
 import respx
 import httpx
-from app.main import app
-from app.model import *
-from app.providers import *
+from main import app
+from model import *
+from providers import *
 
 from fastapi.testclient import TestClient
 
